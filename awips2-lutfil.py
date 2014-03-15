@@ -3,7 +3,7 @@
 #    <color r = "0.0117647058824" g = "0.494117647059" b = "0.501960784314" a = "1.0" />
 import re, sys
 rgb = 255 
-if len(sys.argv) != 2:
+if len(sys.argv) < 2:
 	print "must specify input file\nexiting..."
 	exit
 a2file = sys.argv[1]
@@ -18,8 +18,9 @@ with open(a2file, "rb") as f:
 		line = re.sub(r'\n', r'', line)
 		line = re.sub(r'<color r="', r'', line)
 		line = re.sub(r'" [b-z]="', r' ', line)
+		line = re.sub(r'" a="[0-2]"/>', r'', line)
 		line = re.sub(r'" a="[0-2].0"/>', r'', line)
-		if "colorMap" not in line and "xml" not in line:
+		if "This" not in line and "==" not in line and "colorMap" not in line and "xml" not in line:
 			fvals = map(float, line.split())
 			lut = [int(round(x*rgb)) for x in fvals]
 			outline = '                       '
